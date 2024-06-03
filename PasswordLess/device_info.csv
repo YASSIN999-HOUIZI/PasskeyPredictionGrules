@@ -2,4 +2,4 @@ Label,OSName,Output
 Ezzoubeir,Windows,NoPasskey
 Anabelle,macOS,HasPassKey(device/local)
 Jasper,Linux,NoPasskey
-joe,Android,HasPasskey (cloud-based)
+Joe,Android,HasPasskey (cloud-based)
