@@ -106,23 +106,23 @@ func getPredefinedVersions(platform string) map[string]string {
 	switch lowerPlat {
 	case "ios":
 		return map[string]string{
-			"Safari":  "16",
-			"Chrome":  "16",
-			"Edge":    "16",
-			"Firefox": "16",
+			"safari":  "16",
+			"chrome":  "16",
+			"edge":    "16",
+			"firefox": "16",
 		}
 	case "macos":
 		return map[string]string{
-			"Safari":  "16.1",
-			"Chrome":  "118",
-			"Edge":    "122",
-			"Firefox": "122",
+			"safari":  "16.1",
+			"chrome":  "118",
+			"edge":    "122",
+			"firefox": "122",
 		}
 	case "android":
 		return map[string]string{
-			"Chrome":  "108",
-			"Edge":    "122",
-			"Samsung": "21",
+			"chrome":  "108",
+			"edge":    "122",
+			"samsung": "21",
 		}
 	default:
 		return nil

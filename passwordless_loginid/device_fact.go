@@ -65,7 +65,7 @@ func (df *DeviceFact) MatchDeviceProperties() bool {
 func (df *DeviceFact) MatchCloudCompatibleBrowser() bool {
 	return isVersionMatching(CloudClient{
 		Platform: df.Auth.OsName,
-		ClientName:    df.Auth.ClientName,
+		ClientName:    s.ToLower(df.Auth.ClientName),
 		ClientVersion: df.Auth.ClientVersion,
 	})
 }
