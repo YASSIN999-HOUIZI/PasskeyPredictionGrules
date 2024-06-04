@@ -1,0 +1,7 @@
+rule CheckPassKeysNonExistance "Check devices with no passkeys" salience 100 {
+        when 
+            !DF.IsPassKeyExisting()
+        then
+            DF.AssignOutPut("NoPasskey");
+            Retract("CheckPassKeysNonExistance");
+    }

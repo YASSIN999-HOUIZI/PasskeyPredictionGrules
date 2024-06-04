@@ -1,0 +1,130 @@
+[
+  {
+    "Auth": {
+      "OsName": "IOS",
+      "OsVersion": "14.4",
+      "ClientName": "Safari",
+      "ClientVersion": "16",
+      "IpAddress": "192.168.1.1",
+      "DeviceSize": "5.8",
+      "DeviceID": "device123"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "IOS",
+          "OsVersion": "14.4",
+          "ClientName": "Safari",
+          "ClientVersion": "16",
+          "IpAddress": "192.168.1.1",
+          "DeviceSize": "5.8",
+          "DeviceID": "device123"
+        },
+        "PasskeyType": "local"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "en-US",
+      "IsCMA": true,
+      "IsUVPPA": false,
+      "PasskeyType": "local"
+    },
+    "Output": {}
+  },
+  {
+    "Auth": {
+      "OsName": "Android",
+      "OsVersion": "11",
+      "ClientName": "Chrome",
+      "ClientVersion": "108",
+      "IpAddress": "192.168.1.2",
+      "DeviceSize": "6.1",
+      "DeviceID": "device124"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "Android",
+          "OsVersion": "11",
+          "ClientName": "Chrome",
+          "ClientVersion": "108",
+          "IpAddress": "192.168.1.2",
+          "DeviceSize": "6.1",
+          "DeviceID": "device124"
+        },
+        "PasskeyType": "local"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "fr-FR",
+      "IsCMA": false,
+      "IsUVPPA": true,
+      "PasskeyType": "local"
+    },
+    "Output": {}
+  },
+  {
+    "Auth": {
+      "OsName": "Windows",
+      "OsVersion": "10",
+      "ClientName": "Edge",
+      "ClientVersion": "89.0",
+      "IpAddress": "192.168.1.3",
+      "DeviceSize": "15.6",
+      "DeviceID": "device125"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "Windows",
+          "OsVersion": "10",
+          "ClientName": "Edge",
+          "ClientVersion": "89.0",
+          "IpAddress": "192.168.1.3",
+          "DeviceSize": "15.6",
+          "DeviceID": "device125"
+        },
+        "PasskeyType": "cloud"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "es-ES",
+      "IsCMA": true,
+      "IsUVPPA": false,
+      "PasskeyType": "cloud"
+    },
+    "Output": {}
+  },
+  {
+    "Auth": {
+      "OsName": "macOS",
+      "OsVersion": "11.2",
+      "ClientName": "Safari",
+      "ClientVersion": "14.0",
+      "IpAddress": "192.168.1.4",
+      "DeviceSize": "13.3",
+      "DeviceID": "device126"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "macOS",
+          "OsVersion": "11.2",
+          "ClientName": "Safari",
+          "ClientVersion": "14.0",
+          "IpAddress": "192.168.1.4",
+          "DeviceSize": "13.3",
+          "DeviceID": "device126"
+        },
+        "PasskeyType": "device"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "de-DE",
+      "IsCMA": false,
+      "IsUVPPA": true,
+      "PasskeyType": "Device"
+    },
+    "Output": {}
+  }
+]
