@@ -88,6 +88,12 @@ func writeDeviceInfoToCSV(fileName string, devices []*DeviceFact) error {
 		}
 	}
 
+	sep := []string{"================================="}
+	err = csvWriter.Write(sep)
+		if err != nil {
+			return err
+		}
+
 	csvWriter.Flush()
 	return nil
 }

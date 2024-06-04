@@ -20,13 +20,13 @@
           "DeviceSize": "5.8",
           "DeviceID": "device123"
         },
-        "PasskeyType": "local"
+        "PasskeyType": "device"
       }
     ],
     "DeviceFeatures": {
       "NavigLanguage": "en-US",
       "IsCMA": true,
-      "IsUVPPA": false,
+      "IsUVPPA": true,
       "PasskeyType": "local"
     },
     "Output": {}
@@ -100,7 +100,7 @@
       "OsName": "macOS",
       "OsVersion": "11.2",
       "ClientName": "Safari",
-      "ClientVersion": "14.0",
+      "ClientVersion": "16.1",
       "IpAddress": "192.168.1.4",
       "DeviceSize": "13.3",
       "DeviceID": "device126"
@@ -112,16 +112,16 @@
           "OsVersion": "11.2",
           "ClientName": "Safari",
           "ClientVersion": "14.0",
-          "IpAddress": "192.168.1.4",
+          "IpAddress": "192.168.1.41",
           "DeviceSize": "13.3",
           "DeviceID": "device126"
         },
-        "PasskeyType": "device"
+        "PasskeyType": "cloud"
       }
     ],
     "DeviceFeatures": {
       "NavigLanguage": "de-DE",
-      "IsCMA": false,
+      "IsCMA": true,
       "IsUVPPA": true,
       "PasskeyType": "Device"
     },
