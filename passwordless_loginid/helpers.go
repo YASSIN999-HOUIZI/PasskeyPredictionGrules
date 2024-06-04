@@ -144,3 +144,11 @@ func isVersionMatching(externalData CloudClient) bool {
 
 	return externalData.ClientVersion == expectedVersion
 }
+
+type IntermediatePasskeyPrediction struct {
+	Prediction string
+}
+
+type IntermediateCloudPrediction struct {
+	Prediction string
+}
