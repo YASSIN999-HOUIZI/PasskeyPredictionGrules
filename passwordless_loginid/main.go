@@ -16,23 +16,6 @@ func main(){
 		panic(err)
 	}
 	
-	
-	var rules = `
-	rule CheckPassKeysNonExistance "Check devices with no passkeys" salience 100 {
-        when 
-            !DF.IsPassKeyExisting()
-        then
-            DF.AssignOutPut("nopasskhey",1.0);
-            Retract("CheckPassKeysNonExistance");
-    }
-	rule CheckCloudCompatibleVersion "Check compatible cloud browser" salience 50 {
-        when 
-            DF.MatchCloudCompatibleBrowser()
-        then
-            DF.AssignOutPut("dzadzdzdezdezdezdezdez",5.0);
-            Retract("CheckCloudCompatibleVersion");
-    }
-	`
 
 	drls := rules
 
@@ -47,6 +30,12 @@ func main(){
 	knowledgeBase, _ := knowledgeLibrary.NewKnowledgeBaseInstance("PasswordLessRules", "0.0.2")
 	engine := engine.NewGruleEngine()
 
+	helper1 := &IntermediateCloudPrediction{
+		Prediction: "",
+	}
+	helper2 := &IntermediatePasskeyPrediction{
+		Prediction: "",
+	}
 	for _, myFact := range devices {
 		// Initialize the intermediate predictions for each iteration
 		
@@ -56,13 +45,22 @@ func main(){
 		if err != nil {
 			panic(err)
 		}
-		
+
+		err = dataCtx.Add("IntermediateCloudPrediction", helper1)
+		if err != nil {
+			panic(err)
+		}
+		err = dataCtx.Add("IntermediatePasskeyPrediction", helper2)
+		if err != nil {
+			panic(err)
+		}
+
 
 		err = engine.Execute(dataCtx, knowledgeBase)
 		if err != nil {
 			panic(err)
 		}
-		
+		myFact.Output.MatchProbability = myFact.MatchProbability()
 		
 	}
 

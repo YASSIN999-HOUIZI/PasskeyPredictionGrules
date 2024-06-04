@@ -126,5 +126,37 @@
       "PasskeyType": "Device"
     },
     "Output": {}
+  },
+  {
+    "Auth": {
+      "OsName": "macOS",
+      "OsVersion": "11.2",
+      "ClientName": "Safari",
+      "ClientVersion": "16.1",
+      "IpAddress": "192.148.1.4",
+      "DeviceSize": "13.3",
+      "DeviceID": "device126"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "macOS",
+          "OsVersion": "11.2",
+          "ClientName": "Safari",
+          "ClientVersion": "14.0",
+          "IpAddress": "192.168.1.4",
+          "DeviceSize": "13.3",
+          "DeviceID": "device126"
+        },
+        "PasskeyType": "device"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "de-DE",
+      "IsCMA": true,
+      "IsUVPPA": true,
+      "PasskeyType": "Device"
+    },
+    "Output": {}
   }
 ]

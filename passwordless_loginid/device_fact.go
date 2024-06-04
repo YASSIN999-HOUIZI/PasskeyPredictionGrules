@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	s "strings"
 )
 
@@ -24,7 +25,7 @@ type DeviceFeature struct {
 
 type UserPasskeyHistory struct {
 	DeviceInfo  DeviceInfo
-	PasskeyType PassKeyType
+	PasskeyType string
 }
 
 type Output struct {
@@ -82,7 +83,48 @@ func (df *DeviceFact) MatchProbability() float64 {
 	if df.Output.MatchPassKeyType == "" {
 		panic("no passkey type")
 	}
-	return 0.0
+	if len(df.UserPasskeyHistory) == 0 {
+		return 0.0
+	}
+	// Count the number of times the passkey type appears with matching device info
+	perfectMatches := make(map[string]float64)
+	partialMatches := make(map[string]float64) // Track partial matches for each type
+	passkeyTypeEntriesLength := 0
+	// Convert MatchPassKeyType to PassKeyType for comparison
+	// matchPassKeyType := PassKeyType(df.Output.MatchPassKeyType)
+	for _, entry := range df.UserPasskeyHistory {
+		passkeyType := entry.PasskeyType
+		entry_device_info := entry.DeviceInfo
+		if passkeyType == df.Output.MatchPassKeyType {
+			propMatchCount := 0
+			passkeyTypeEntriesLength++
+			t := reflect.TypeOf(df.Auth)
+			for i := 0; i < t.NumField(); i++ {
+				f := t.Field(i)
+				v1 := reflect.ValueOf(df.Auth).FieldByName(f.Name).Interface()
+				v2 := reflect.ValueOf(entry_device_info).FieldByName(f.Name).Interface()
+				if v1 == v2 {
+					propMatchCount++
+				}
+			}
+			// Count full matches
+			if propMatchCount == t.NumField() {
+				perfectMatches[df.Output.MatchPassKeyType]++
+			} else if propMatchCount > 0 {
+				// Increment partial matches for this type
+				partialMatches[df.Output.MatchPassKeyType] += (float64(propMatchCount) * (1 / 7))
+			}
+		}
+	}
+	if passkeyTypeEntriesLength == 0 {
+		return 0.0 * 100
+	}
+	if _, ok := perfectMatches[df.Output.MatchPassKeyType]; ok {
+		return 100
+	} else {
+		return partialMatches[df.Output.MatchPassKeyType] * (1 / float64(passkeyTypeEntriesLength)) * 100
+	}
+
 }
 
 // func (df *DeviceFact) MatchPasskeyType() float64 {
