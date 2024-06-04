@@ -1,2 +1,9 @@
 # run demo:
-inside PasswordLess run : go run passwordless.go cloud_based_passkeys.go device_properties_match.go passkeys_non_existance.go
+
+install golang
+
+cd passwordless_loginid"
+go run .\helpers.go .\main.go .\device_fact.go .\rules.go
+
+#data => ./passwordless_loginid/devices.json
+#check => ./passwordless_loginid/device_info.csv
