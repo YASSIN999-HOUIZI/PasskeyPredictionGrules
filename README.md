@@ -13,8 +13,8 @@ git clone https://github.com/YASSIN999-HOUIZI/PasskeyPredictionGrules.git
 ```
 3. Run the demo
 ```terminal
-cd passwordless_loginid
-go run .\helpers.go .\main.go .\device_fact.go .\rules.go
+cd PasskeyPredictionGrules/passwordless_loginid
+go run helpers.go main.go device_fact.go rules.go
 ```
 
 
