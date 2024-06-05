@@ -1,4 +1,4 @@
-# Passkey Prediction using Grules
+# Passkey Prediction using Grule
 
 ## Prerequistes
 This project requires the following:
