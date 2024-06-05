@@ -10,9 +10,9 @@ var rules = `
     }
 	rule CheckMatch_OS_DeviceProperties1 "Check match Device Properties" salience 90 {
         when 
-            DF.IsPassKeyExisting() && DF.MatchOS() && DF.MatchDeviceProperties()  
+            DF.IsPassKeyExisting() && DF.MatchOS() && DF.MatchDeviceProperties() 
         then
-            DF.AssignOutPut("device",1.0);
+            DF.AssignOutPut(DF.GetDeviceOrLocal(),1.0);
             Retract("CheckMatch_OS_DeviceProperties1");
     }
 

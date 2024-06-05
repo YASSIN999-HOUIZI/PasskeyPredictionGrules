@@ -134,6 +134,12 @@ func (df *DeviceFact) MatchProbability() float64 {
 // func (df *DeviceInfo) IsCloud() bool {
 // 	return df.DeviceFeature.PasskeyType == "cloud"
 // }
+func (df *DeviceFact) GetDeviceOrLocal() string{
+	if df.Auth.OsName == "macOS"{
+		return "local"
+	}
+	return "device"
+}
 
 func (df *DeviceFact) AssignOutPut(passkeyType string, matchProbability float64) {
 

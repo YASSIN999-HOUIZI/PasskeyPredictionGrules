@@ -38,7 +38,6 @@ func main(){
 	}
 	for _, myFact := range devices {
 		// Initialize the intermediate predictions for each iteration
-		
 
 		dataCtx := ast.NewDataContext()
 		err = dataCtx.Add("DF", myFact)
