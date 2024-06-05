@@ -1,10 +1,11 @@
 package main
 
 import (
-	"reflect"
+	"fmt"
+	"strconv"
+	"strings"
 	s "strings"
 )
-
 
 type DeviceInfo struct {
 	OsName        string
@@ -65,7 +66,7 @@ func (df *DeviceFact) MatchDeviceProperties() bool {
 
 func (df *DeviceFact) MatchCloudCompatibleBrowser() bool {
 	return isVersionMatching(CloudClient{
-		Platform: df.Auth.OsName,
+		Platform:      df.Auth.OsName,
 		ClientName:    s.ToLower(df.Auth.ClientName),
 		ClientVersion: df.Auth.ClientVersion,
 	})
@@ -80,62 +81,103 @@ func (df *DeviceFact) IsCompatibleDevice() bool {
 }
 
 func (df *DeviceFact) MatchProbability() float64 {
-	if df.Output.MatchPassKeyType == "" {
-		panic("no passkey type")
-	}
-	if len(df.UserPasskeyHistory) == 0 {
-		return 0.0
-	}
-	// Count the number of times the passkey type appears with matching device info
-	perfectMatches := make(map[string]float64)
-	partialMatches := make(map[string]float64) // Track partial matches for each type
-	passkeyTypeEntriesLength := 0
-	for _, entry := range df.UserPasskeyHistory {
-		passkeyType := entry.PasskeyType
-		entry_device_info := entry.DeviceInfo
+	probability := 0.0
 
-		if passkeyType == df.Output.MatchPassKeyType {
-			propMatchCount := 0
-			passkeyTypeEntriesLength++
-			t := reflect.TypeOf(df.Auth)
-			for i := 0; i < t.NumField(); i++ {
-				f := t.Field(i)
-				v1 := reflect.ValueOf(df.Auth).FieldByName(f.Name).Interface()
-				v2 := reflect.ValueOf(entry_device_info).FieldByName(f.Name).Interface()
-				if v1 == v2 {
-					propMatchCount++
-				}
+	for _, pastDevice := range df.UserPasskeyHistory {
+		weight := 0.0
+		if df.Auth.DeviceID == pastDevice.DeviceInfo.DeviceID {
+			probability = 100
+			return probability
+		}
+
+		// Reduce weight for OS version mismatch
+		if df.Auth.OsName == pastDevice.DeviceInfo.OsName {
+			weight = 1
+			versionDiff := compareVersions(df.Auth.OsVersion, pastDevice.DeviceInfo.OsVersion)
+			if versionDiff > 0 {
+				weight *= 0.8 // upgrade most likely to happen
+			} else if versionDiff < 0 {
+				weight *= 0.7 // downgrade less likely to happen
 			}
-			// Count full matches
-			if propMatchCount == t.NumField() {
-				perfectMatches[df.Output.MatchPassKeyType]++
-			} else if propMatchCount > 0 {
-				partialMatches[df.Output.MatchPassKeyType] += (float64(propMatchCount) * 0.142857)
+
+			// Reduce weight for client version mismatch
+			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
+				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
+				if versionDiff > 0 {
+					weight *= 0.9 // upgrade
+				} else if versionDiff < 0 {
+					weight *= 0.8 // downgrade
+				}
+			} else {
+				weight *= 0.85
+			}
+		} else {
+			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
+				weight = 0.75
+			} else {
+				weight *= 0.75
 			}
 		}
-	}
-	// fmt.Println("count ",passkeyTypeEntriesLength)
+		if df.Auth.DeviceSize != pastDevice.DeviceInfo.DeviceSize { // penalty if the device size is different
+			weight *= 0.85
+		}
 
-	if passkeyTypeEntriesLength == 0 {
-		return 0.0 * 100
-	}
-	if _, ok := perfectMatches[df.Output.MatchPassKeyType]; ok {
-		return 100
-	} else {
-		return partialMatches[df.Output.MatchPassKeyType] * (1 / float64(passkeyTypeEntriesLength)) * 100
+		newProbability := weight * 100
+		if newProbability > probability { // We keep the greatest probability knowing entries probability are independent
+			probability = newProbability
+		}
 	}
 
+	fmt.Println("test:", probability)
+
+	return min(probability, 90)
+}
+
+func min(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func compareVersions(v1 string, v2 string) int {
+	v1Parts := strings.Split(v1, ".")
+	v2Parts := strings.Split(v2, ".")
+
+	minLength := len(v1Parts)
+	if len(v2Parts) < minLength {
+		minLength = len(v2Parts)
+	}
+
+	for i := 0; i < minLength; i++ {
+		v1Num, err := strconv.Atoi(v1Parts[i])
+		if err != nil {
+			return 0 // Handle error or use different logic if needed
+		}
+		v2Num, err := strconv.Atoi(v2Parts[i])
+		if err != nil {
+			return 0 // Handle error or use different logic if needed
+		}
+		if v1Num > v2Num {
+			return 1 // Upgrade
+		} else if v1Num < v2Num {
+			return -1 // Downgrade
+		}
+	}
+
+	// Versions are equal up to the minimum length, consider versions with more parts as upgrades
+	return len(v1Parts) - len(v2Parts)
 }
 
 // func (df *DeviceFact) MatchPasskeyType() float64 {
 // 	return 0.0
 // }
 
-// func (df *DeviceInfo) IsCloud() bool {
-// 	return df.DeviceFeature.PasskeyType == "cloud"
-// }
-func (df *DeviceFact) GetDeviceOrLocal() string{
-	if df.Auth.OsName == "macOS"{
+//	func (df *DeviceInfo) IsCloud() bool {
+//		return df.DeviceFeature.PasskeyType == "cloud"
+//	}
+func (df *DeviceFact) GetDeviceOrLocal() string {
+	if df.Auth.OsName == "macOS" {
 		return "local"
 	}
 	return "device"

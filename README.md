@@ -2,8 +2,8 @@
 
 install golang
 
-cd passwordless_loginid"
+cd passwordless_loginid
 go run .\helpers.go .\main.go .\device_fact.go .\rules.go
 
-#data => ./passwordless_loginid/devices.json
-#check => ./passwordless_loginid/device_info.csv
+#Input File => ./passwordless_loginid/devices.json
+#Output File => ./passwordless_loginid/device_info.csv

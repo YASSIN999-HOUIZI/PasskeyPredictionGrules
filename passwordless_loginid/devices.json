@@ -4,10 +4,10 @@
       "OsName": "IOS",
       "OsVersion": "14.4",
       "ClientName": "Safari",
-      "ClientVersion": "16",
+      "ClientVersion": "15",
       "IpAddress": "192.168.1.1",
-      "DeviceSize": "5.8",
-      "DeviceID": "device123"
+      "DeviceSize": "5",
+      "DeviceID": "device1234"
     },
     "UserPasskeyHistory": [
       {
