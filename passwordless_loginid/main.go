@@ -30,15 +30,16 @@ func main(){
 	knowledgeBase, _ := knowledgeLibrary.NewKnowledgeBaseInstance("PasswordLessRules", "0.0.2")
 	engine := engine.NewGruleEngine()
 
-	helper1 := &IntermediateCloudPrediction{
-		Prediction: "",
-	}
-	helper2 := &IntermediatePasskeyPrediction{
-		Prediction: "",
-	}
+	
 	for _, myFact := range devices {
 		// Initialize the intermediate predictions for each iteration
-
+		
+		helper1 := &IntermediateCloudPrediction{
+			Prediction: "",
+		}
+		helper2 := &IntermediatePasskeyPrediction{
+			Prediction: "",
+		}
 		dataCtx := ast.NewDataContext()
 		err = dataCtx.Add("DF", myFact)
 		if err != nil {

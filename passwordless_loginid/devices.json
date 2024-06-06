@@ -1,38 +1,6 @@
 [
   {
     "Auth": {
-      "OsName": "IOS",
-      "OsVersion": "14.4",
-      "ClientName": "Safari",
-      "ClientVersion": "15",
-      "IpAddress": "192.168.1.1",
-      "DeviceSize": "5",
-      "DeviceID": "device1234"
-    },
-    "UserPasskeyHistory": [
-      {
-        "DeviceInfo": {
-          "OsName": "IOS",
-          "OsVersion": "14.4",
-          "ClientName": "Safari",
-          "ClientVersion": "16",
-          "IpAddress": "192.168.1.1",
-          "DeviceSize": "5.8",
-          "DeviceID": "device123"
-        },
-        "PasskeyType": "device"
-      }
-    ],
-    "DeviceFeatures": {
-      "NavigLanguage": "en-US",
-      "IsCMA": true,
-      "IsUVPPA": true,
-      "PasskeyType": "local"
-    },
-    "Output": {}
-  },
-  {
-    "Auth": {
       "OsName": "Android",
       "OsVersion": "11",
       "ClientName": "Chrome",
@@ -63,6 +31,39 @@
     },
     "Output": {}
   },
+  {
+    "Auth": {
+      "OsName": "IOS",
+      "OsVersion": "14.4",
+      "ClientName": "Safari",
+      "ClientVersion": "15",
+      "IpAddress": "192.168.1.1",
+      "DeviceSize": "5",
+      "DeviceID": "device1234"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "IOS",
+          "OsVersion": "14.4",
+          "ClientName": "Safari",
+          "ClientVersion": "16",
+          "IpAddress": "192.168.1.1",
+          "DeviceSize": "5.8",
+          "DeviceID": "device123"
+        },
+        "PasskeyType": "device"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "en-US",
+      "IsCMA": true,
+      "IsUVPPA": true,
+      "PasskeyType": "local"
+    },
+    "Output": {}
+  },
+
   {
     "Auth": {
       "OsName": "Windows",

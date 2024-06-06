@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	s "strings"
 )
 
@@ -56,17 +55,29 @@ func (df *DeviceFact) MatchOS() bool {
 }
 
 func (df *DeviceFact) MatchDeviceProperties() bool {
+	
 	for _, deviceInfo := range df.UserPasskeyHistory {
-		if deviceInfo.DeviceInfo != df.Auth {
+		// if deviceInfo.DeviceInfo != df.Auth {
+		// 	return false
+		// }
+		if deviceInfo.DeviceInfo.DeviceID != df.Auth.DeviceID || deviceInfo.DeviceInfo.DeviceSize != df.Auth.DeviceSize{
 			return false
 		}
+		if s.ToLower(deviceInfo.PasskeyType) == "local"{
+			if deviceInfo.DeviceInfo.ClientName != df.Auth.ClientName || deviceInfo.DeviceInfo.ClientVersion != df.Auth.ClientVersion{
+				return false
+		}	
+		}
+		
 	}
+	fmt.Println(df.Auth.OsName,true)
+
 	return true
 }
 
 func (df *DeviceFact) MatchCloudCompatibleBrowser() bool {
 	return isVersionMatching(CloudClient{
-		Platform:      df.Auth.OsName,
+		Platform:      s.ToLower(df.Auth.OsName),
 		ClientName:    s.ToLower(df.Auth.ClientName),
 		ClientVersion: df.Auth.ClientVersion,
 	})
@@ -141,8 +152,8 @@ func min(a, b float64) float64 {
 }
 
 func compareVersions(v1 string, v2 string) int {
-	v1Parts := strings.Split(v1, ".")
-	v2Parts := strings.Split(v2, ".")
+	v1Parts := s.Split(v1, ".")
+	v2Parts := s.Split(v2, ".")
 
 	minLength := len(v1Parts)
 	if len(v2Parts) < minLength {
@@ -177,7 +188,11 @@ func compareVersions(v1 string, v2 string) int {
 //		return df.DeviceFeature.PasskeyType == "cloud"
 //	}
 func (df *DeviceFact) GetDeviceOrLocal() string {
-	if df.Auth.OsName == "macOS" {
+	// if df.DeviceFeatures.IsUVPPA {
+	// 	return "local"
+	// }
+	// return "device"
+	if s.ToLower(df.Auth.OsName) == "macos" {
 		return "local"
 	}
 	return "device"

@@ -5,7 +5,7 @@ var rules = `
         when 
             !DF.IsPassKeyExisting()
         then
-            DF.AssignOutPut("nopasskhey",1.0);
+            DF.AssignOutPut("nopasskey",1.0);
             Retract("CheckPassKeysNonExistance");
     }
 	rule CheckMatch_OS_DeviceProperties1 "Check match Device Properties" salience 90 {
