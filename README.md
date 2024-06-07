@@ -16,12 +16,17 @@ Device information properties (Device ID, OS name and version, client name and v
 2. Clone the repository to your machine
 3. Navigate to the project directory
 ```terminal
-cd PasskeyPredictionGrules/passwordless_loginid
+cd loginid-decision-engine/passwordless_loginid
 ```
-4. Launch the server
+4. Launch the server 
+- Windows
 ```terminal
-./Server.bat
+./server.bat
+```
+- Linux
+```terminal
+./server.sh
 ```
 
-### Input File Location: passwordless_loginid/devices.json
-### Output File Location: passwordless_loginid/device_info.csv
+### With the Rest client extension installed on vs code, use the Request.http file to test the API 
+
