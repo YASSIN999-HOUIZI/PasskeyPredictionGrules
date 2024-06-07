@@ -180,18 +180,8 @@ func compareVersions(v1 string, v2 string) int {
 	return len(v1Parts) - len(v2Parts)
 }
 
-// func (df *DeviceFact) MatchPasskeyType() float64 {
-// 	return 0.0
-// }
 
-//	func (df *DeviceInfo) IsCloud() bool {
-//		return df.DeviceFeature.PasskeyType == "cloud"
-//	}
 func (df *DeviceFact) GetDeviceOrLocal() string {
-	// if df.DeviceFeatures.IsUVPPA {
-	// 	return "local"
-	// }
-	// return "device"
 	if s.ToLower(df.Auth.OsName) == "macos" {
 		return "local"
 	}
@@ -204,5 +194,4 @@ func (df *DeviceFact) AssignOutPut(passkeyType string, matchProbability float64)
 		MatchPassKeyType: passkeyType,
 		MatchProbability: matchProbability,
 	}
-	// df.Output.MatchPassKeyType = passkeyType //PassKeyType(passkeyType)
 }
