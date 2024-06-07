@@ -13,16 +13,15 @@ Device information properties (Device ID, OS name and version, client name and v
 
 ## Install and Run
 1. Open a new shell
-2. Copy the repository to your machine
-```terminal
-git clone https://github.com/YASSIN999-HOUIZI/PasskeyPredictionGrules.git
-```
-3. Navigate to the project directory and Run the demo
+2. Clone the repository to your machine
+3. Navigate to the project directory
 ```terminal
 cd PasskeyPredictionGrules/passwordless_loginid
-go run helpers.go main.go device_fact.go rules.go
 ```
-
+4. Launch the server
+```terminal
+./Server.bat
+```
 
 ### Input File Location: passwordless_loginid/devices.json
 ### Output File Location: passwordless_loginid/device_info.csv
