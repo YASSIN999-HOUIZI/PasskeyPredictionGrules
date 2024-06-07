@@ -1,0 +1,36 @@
+### Test POST request to DeviceFact API
+POST http://localhost:8080/
+Content-Type: application/json
+
+ {
+    "Auth": {
+      "OsName": "Android",
+      "OsVersion": "11",
+      "ClientName": "Chrome",
+      "ClientVersion": "108",
+      "IpAddress": "192.168.1.2",
+      "DeviceSize": "6.1",
+      "DeviceID": "device124"
+    },
+    "UserPasskeyHistory": [
+      {
+        "DeviceInfo": {
+          "OsName": "Android",
+          "OsVersion": "11",
+          "ClientName": "Chrome",
+          "ClientVersion": "108",
+          "IpAddress": "192.168.1.2",
+          "DeviceSize": "6.1",
+          "DeviceID": "device124"
+        },
+        "PasskeyType": "local"
+      }
+    ],
+    "DeviceFeatures": {
+      "NavigLanguage": "fr-FR",
+      "IsCMA": false,
+      "IsUVPPA": true,
+      "PasskeyType": "local"
+    },
+    "Output": {}
+  }
