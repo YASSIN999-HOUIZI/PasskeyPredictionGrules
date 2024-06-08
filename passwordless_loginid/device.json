@@ -1,32 +1,31 @@
 {
   "Auth": {
-    "OsName": "macOS",
-    "OsVersion": "11.2",
-    "ClientName": "Safari",
-    "ClientVersion": "16.1",
-    "IpAddress": "192.148.1.4",
-    "DeviceSize": "13.3",
-    "DeviceID": "device126"
+    "OsName": "Android",
+    "OsVersion": "11",
+    "ClientName": "Chrome",
+    "ClientVersion": "108",
+    "IpAddress": "192.168.1.2",
+    "DeviceSize": "6.1",
+    "DeviceID": "device124"
   },
   "UserPasskeyHistory": [
     {
       "DeviceInfo": {
-        "OsName": "macOS",
-        "OsVersion": "11.2",
-        "ClientName": "Safari",
-        "ClientVersion": "16.1",
-        "IpAddress": "192.168.1.4",
-        "DeviceSize": "13.3",
-        "DeviceID": "device126"
+        "OsName": "Android",
+        "OsVersion": "11",
+        "ClientName": "Chrome",
+        "ClientVersion": "108",
+        "IpAddress": "192.168.1.2",
+        "DeviceSize": "6.1",
+        "DeviceID": "device124"
       },
-      "PasskeyType": "device"
+      "PasskeyType": "local"
     }
   ],
   "DeviceFeatures": {
-    "NavigLanguage": "de-DE",
-    "IsCMA": true,
+    "NavigLanguage": "fr-FR",
+    "IsCMA": false,
     "IsUVPPA": true,
-    "PasskeyType": "Device"
-  },
-  "Output": {}
+    "PasskeyType": "local"
+  }
 }

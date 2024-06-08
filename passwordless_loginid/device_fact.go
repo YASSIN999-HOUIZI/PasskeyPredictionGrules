@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	s "strings"
 )
@@ -70,7 +69,7 @@ func (df *DeviceData) MatchDeviceProperties() bool {
 		}
 
 	}
-	fmt.Println(df.Auth.OsName, true)
+	// fmt.Println(df.Auth.OsName, true)
 
 	return true
 }
