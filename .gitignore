@@ -1,6 +1,5 @@
 PasswordLess/
 data.json
 passwordless_loginid/MatchProbability.txt
-passwordless_loginid/main.go
 passwordless_loginid/devices.json
 passwordless_loginid/device_info.csv

@@ -42,14 +42,15 @@ var PassKeys = struct {
 	NoPasskey: "nopasskey",
 }
 
-func readDeviceInfoFromJSON(fileName string) ([]*DeviceFact, error) {
+func readDeviceInfoFromJSON(fileName string) ([]*DeviceData, error) {
+	
 	file, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	var devices []*DeviceFact
+	var devices []*DeviceData
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&devices)
 	if err != nil {
@@ -58,7 +59,24 @@ func readDeviceInfoFromJSON(fileName string) ([]*DeviceFact, error) {
 	return devices, nil
 }
 
-func writeDeviceInfoToCSV(fileName string, devices []*DeviceFact) error {
+func readSingleDeviceInfoFromJSON(fileName string) (DeviceData, error) {
+	
+	file, err := os.Open(fileName)
+	if err != nil {
+		return DeviceData{}, err
+	}
+	defer file.Close()
+
+	var device DeviceData
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&device)
+	if err != nil {
+		return DeviceData{}, err
+	}
+	return device, nil
+}
+
+func writeDeviceInfoToCSV(fileName string, devices []*DeviceData) error {
 	csvFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return err

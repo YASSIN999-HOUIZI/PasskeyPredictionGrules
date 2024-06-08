@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func main(){
+func runServer(){
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -14,24 +14,22 @@ func main(){
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 			return
 		}
-
-		var df DeviceFact
+		
+		var output Output
+		var df DeviceData
 		err := json.NewDecoder(r.Body).Decode(&df)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		var devices []*DeviceFact
-		devices = append(devices, &df)
-
-		err = ProcessDevices(devices, rules)
+		output,err = ProcessDevices(df.Auth,df.UserPasskeyHistory,df.DeviceFeatures)
 		if err != nil {
 			panic(err)
 		}
 
 		// Return the result as JSON
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(df.Output)
+		json.NewEncoder(w).Encode(output)
 	})
 
 	fmt.Println("Server is running on port 8080")

@@ -34,18 +34,18 @@ type Output struct {
 	// MatchPasskeyType float64
 }
 
-type DeviceFact struct {
+type DeviceData struct {
 	Auth               DeviceInfo
 	UserPasskeyHistory []*UserPasskeyHistory
 	DeviceFeatures     DeviceFeature
 	Output             Output
 }
 
-func (df *DeviceFact) IsPassKeyExisting() bool {
+func (df *DeviceData) IsPassKeyExisting() bool {
 	return df.DeviceFeatures.IsUVPPA
 }
 
-func (df *DeviceFact) MatchOS() bool {
+func (df *DeviceData) MatchOS() bool {
 	for _, history := range df.UserPasskeyHistory {
 		if df.Auth.OsName != history.DeviceInfo.OsName || df.Auth.OsVersion != history.DeviceInfo.OsVersion {
 			return false
@@ -54,7 +54,7 @@ func (df *DeviceFact) MatchOS() bool {
 	return true
 }
 
-func (df *DeviceFact) MatchDeviceProperties() bool {
+func (df *DeviceData) MatchDeviceProperties() bool {
 	
 	for _, deviceInfo := range df.UserPasskeyHistory {
 		// if deviceInfo.DeviceInfo != df.Auth {
@@ -75,7 +75,7 @@ func (df *DeviceFact) MatchDeviceProperties() bool {
 	return true
 }
 
-func (df *DeviceFact) MatchCloudCompatibleBrowser() bool {
+func (df *DeviceData) MatchCloudCompatibleBrowser() bool {
 	return isVersionMatching(CloudClient{
 		Platform:      s.ToLower(df.Auth.OsName),
 		ClientName:    s.ToLower(df.Auth.ClientName),
@@ -83,15 +83,15 @@ func (df *DeviceFact) MatchCloudCompatibleBrowser() bool {
 	})
 }
 
-func (df *DeviceFact) IsConditionalMediationAvailable() bool {
+func (df *DeviceData) IsConditionalMediationAvailable() bool {
 	return df.DeviceFeatures.IsCMA
 }
 
-func (df *DeviceFact) IsCompatibleDevice() bool {
+func (df *DeviceData) IsCompatibleDevice() bool {
 	return s.ToLower(df.Auth.OsName) != "windows"
 }
 
-func (df *DeviceFact) MatchProbability() float64 {
+func (df *DeviceData) MatchProbability() float64 {
 	probability := 0.0
 
 	for _, pastDevice := range df.UserPasskeyHistory {
@@ -181,14 +181,14 @@ func compareVersions(v1 string, v2 string) int {
 }
 
 
-func (df *DeviceFact) GetDeviceOrLocal() string {
+func (df *DeviceData) GetDeviceOrLocal() string {
 	if s.ToLower(df.Auth.OsName) == "macos" {
 		return "local"
 	}
 	return "device"
 }
 
-func (df *DeviceFact) AssignOutPut(passkeyType string, matchProbability float64) {
+func (df *DeviceData) AssignOutPut(passkeyType string, matchProbability float64) {
 
 	df.Output = Output{
 		MatchPassKeyType: passkeyType,
