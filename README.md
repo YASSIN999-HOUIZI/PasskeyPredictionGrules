@@ -39,7 +39,7 @@ If you prefer to run the rule engine as a server, you can do so via the followin
 ```
 #### With the Rest client extension installed on vs code, use the Request.http file to test the API 
 
-## Important details for the integration
+## Important details related to the integration
 The function that runs the rule engine is located in passwordless_loginid/rule_engine and has the following signature: 
 - #### func ProcessDevice(devicesinfos DeviceInfo, userPasskeyHistory []*UserPasskeyHistory, deviceFeatures DeviceFeature) (Output,error)
 
