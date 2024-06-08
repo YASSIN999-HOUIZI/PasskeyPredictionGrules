@@ -18,15 +18,33 @@ Device information properties (Device ID, OS name and version, client name and v
 ```terminal
 cd loginid-decision-engine/passwordless_loginid
 ```
-4. Launch the server 
+4. Run the test file 
 - Windows
 ```terminal
-./server.bat
+.\test.bat
+```
+- Linux
+```terminal
+./test.sh
+```
+5. Run the rule engine as a server
+If you prefer to run the rule engine as a server, you can do so via the following commands:
+- Windows
+```terminal
+.\server.bat
 ```
 - Linux
 ```terminal
 ./server.sh
 ```
+#### With the Rest client extension installed on vs code, use the Request.http file to test the API 
 
-### With the Rest client extension installed on vs code, use the Request.http file to test the API 
+## Important details for the integration
+The function that runs the rule engine is located in passwordless_loginid/rule_engine and has the following signature: 
+- #### func ProcessDevice(devicesinfos DeviceInfo, userPasskeyHistory []*UserPasskeyHistory, deviceFeatures DeviceFeature) (Output,error)
 
+The Output is a structure of two properties: 
+- MatchProbability := 0 {least likely} to 100 {most likely} based on the user history
+- MatchPasskeyType := the matching passkey type  [clooud | device | local]
+
+An usage example of this function is located in passwordless_loginid/test.go
