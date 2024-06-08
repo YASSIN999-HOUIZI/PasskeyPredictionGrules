@@ -60,17 +60,17 @@ func (df *DeviceData) MatchDeviceProperties() bool {
 		// if deviceInfo.DeviceInfo != df.Auth {
 		// 	return false
 		// }
-		if deviceInfo.DeviceInfo.DeviceID != df.Auth.DeviceID || deviceInfo.DeviceInfo.DeviceSize != df.Auth.DeviceSize{
+		if deviceInfo.DeviceInfo.DeviceID != df.Auth.DeviceID || deviceInfo.DeviceInfo.DeviceSize != df.Auth.DeviceSize {
 			return false
 		}
-		if s.ToLower(deviceInfo.PasskeyType) == "local"{
-			if deviceInfo.DeviceInfo.ClientName != df.Auth.ClientName || deviceInfo.DeviceInfo.ClientVersion != df.Auth.ClientVersion{
+		if s.ToLower(deviceInfo.PasskeyType) == "local" {
+			if deviceInfo.DeviceInfo.ClientName != df.Auth.ClientName || deviceInfo.DeviceInfo.ClientVersion != df.Auth.ClientVersion {
 				return false
-		}	
+			}
 		}
-		
+
 	}
-	fmt.Println(df.Auth.OsName,true)
+	fmt.Println(df.Auth.OsName, true)
 
 	return true
 }
@@ -116,21 +116,45 @@ func (df *DeviceData) MatchProbability() float64 {
 				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
 				if versionDiff > 0 {
 					weight *= 0.9 // upgrade
-				} else if versionDiff < 0 {
-					weight *= 0.8 // downgrade
+				} else if versionDiff < 0 { // downgrade
+					if isVersionMatching(CloudClient{
+						Platform:      s.ToLower(df.Auth.OsName),
+						ClientName:    s.ToLower(df.Auth.ClientName),
+						ClientVersion: df.Auth.ClientVersion,
+					}) {
+						weight *= 0.8
+					} else {
+						weight *= 0.05
+					}
+
 				}
 			} else {
 				weight *= 0.85
 			}
 		} else {
 			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
-				weight = 0.75
+				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
+				if versionDiff > 0 {
+					weight = 0.75 // upgrade
+				} else if versionDiff < 0 { // downgrade
+					if isVersionMatching(CloudClient{
+						Platform:      s.ToLower(df.Auth.OsName),
+						ClientName:    s.ToLower(df.Auth.ClientName),
+						ClientVersion: df.Auth.ClientVersion,
+					}) {
+						weight = 0.6
+					} else {
+						weight = 0.05
+					}
+
+				}
+
 			} else {
-				weight *= 0.75
+				weight = 0.45
 			}
 		}
 		if df.Auth.DeviceSize != pastDevice.DeviceInfo.DeviceSize { // penalty if the device size is different
-			weight *= 0.85
+			weight *= 0.7
 		}
 
 		newProbability := weight * 100
@@ -138,8 +162,6 @@ func (df *DeviceData) MatchProbability() float64 {
 			probability = newProbability
 		}
 	}
-
-	fmt.Println("test:", probability)
 
 	return min(probability, 90)
 }
@@ -163,11 +185,11 @@ func compareVersions(v1 string, v2 string) int {
 	for i := 0; i < minLength; i++ {
 		v1Num, err := strconv.Atoi(v1Parts[i])
 		if err != nil {
-			return 0 // Handle error or use different logic if needed
+			return 0
 		}
 		v2Num, err := strconv.Atoi(v2Parts[i])
 		if err != nil {
-			return 0 // Handle error or use different logic if needed
+			return 0
 		}
 		if v1Num > v2Num {
 			return 1 // Upgrade
@@ -180,8 +202,8 @@ func compareVersions(v1 string, v2 string) int {
 	return len(v1Parts) - len(v2Parts)
 }
 
-
 func (df *DeviceData) GetDeviceOrLocal() string {
+
 	if s.ToLower(df.Auth.OsName) == "macos" {
 		return "local"
 	}
