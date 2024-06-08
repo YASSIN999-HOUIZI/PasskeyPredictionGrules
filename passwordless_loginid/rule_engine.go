@@ -8,7 +8,7 @@ import (
 )
 
 // ProcessDevices processes the devices using the rule engine
-func ProcessDevices(devicesinfos DeviceInfo, userPasskeyHistory []*UserPasskeyHistory, deviceFeatures DeviceFeature) (Output,error) {
+func ProcessDevice(devicesinfos DeviceInfo, userPasskeyHistory []*UserPasskeyHistory, deviceFeatures DeviceFeature) (Output,error) {
 
 	device := DeviceData{
 		Auth: devicesinfos,

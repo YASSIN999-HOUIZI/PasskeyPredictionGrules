@@ -22,7 +22,7 @@ func runServer(){
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		output,err = ProcessDevices(df.Auth,df.UserPasskeyHistory,df.DeviceFeatures)
+		output,err = ProcessDevice(df.Auth,df.UserPasskeyHistory,df.DeviceFeatures)
 		if err != nil {
 			panic(err)
 		}

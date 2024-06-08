@@ -9,7 +9,7 @@ func test() {
 		panic(err)
 	}
 
-	output, err = ProcessDevices(device.Auth, device.UserPasskeyHistory, device.DeviceFeatures)
+	output, err = ProcessDevice(device.Auth, device.UserPasskeyHistory, device.DeviceFeatures)
 	if err != nil {
 		panic(err)
 	}
