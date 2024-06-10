@@ -1,4 +1,5 @@
 ### Test POST request to DeviceFact API
+
 POST http://localhost:8080/
 Content-Type: application/json
 

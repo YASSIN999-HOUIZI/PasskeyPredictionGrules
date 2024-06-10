@@ -98,7 +98,7 @@ func writeDeviceInfoToCSV(fileName string, devices []*DeviceData) error {
 	}
 
 	for _, device := range devices {
-		record := []string{device.Auth.DeviceID, device.Auth.OsName, string(device.Output.MatchPassKeyType), strconv.FormatFloat(device.Output.MatchProbability, 'f', -1, 64)}
+		record := []string{device.Auth.DeviceID, device.Auth.OsName, device.Output.MatchPassKeyType, strconv.FormatFloat(device.Output.MatchProbability, 'f', -1, 64)}
 		err = csvWriter.Write(record)
 		if err != nil {
 			return err

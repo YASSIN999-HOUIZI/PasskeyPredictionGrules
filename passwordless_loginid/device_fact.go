@@ -10,7 +10,7 @@ type DeviceInfo struct {
 	OsVersion     string
 	ClientName    string
 	ClientVersion string
-	IpAddress     string
+	IPAddress     string
 	DeviceSize    string
 	DeviceID      string
 }
