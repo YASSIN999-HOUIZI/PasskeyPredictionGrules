@@ -54,7 +54,7 @@ func (df *DeviceData) MatchOS() bool {
 }
 
 func (df *DeviceData) MatchDeviceProperties() bool {
-	
+
 	for _, deviceInfo := range df.UserPasskeyHistory {
 		// if deviceInfo.DeviceInfo != df.Auth {
 		// 	return false
@@ -99,57 +99,37 @@ func (df *DeviceData) MatchProbability() float64 {
 			probability = 100
 			return probability
 		}
-
-		// Reduce weight for OS version mismatch
 		if df.Auth.OsName == pastDevice.DeviceInfo.OsName {
-			weight = 1
+			weight = 0.9
+		} else {
+			weight = 0.8
+		}
+		switch pastDevice.PasskeyType {
+		case "cloud":
+			if isVersionMatching(CloudClient{
+				Platform:      s.ToLower(df.Auth.OsName),
+				ClientName:    s.ToLower(df.Auth.ClientName),
+				ClientVersion: df.Auth.ClientVersion,
+			}) {
+				weight *= 0.8
+			} else {
+				weight *= 0.05
+			}
+		case "local":
+			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
+				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
+				if versionDiff > 0 {
+					weight *= 0.9 // upgrade most likely to happen
+				} else if versionDiff < 0 { // downgrade less likely to happen
+					weight *= 0.75
+				}
+			}
+		default:
 			versionDiff := compareVersions(df.Auth.OsVersion, pastDevice.DeviceInfo.OsVersion)
 			if versionDiff > 0 {
-				weight *= 0.8 // upgrade most likely to happen
+				weight *= 0.8 // upgrade
 			} else if versionDiff < 0 {
-				weight *= 0.7 // downgrade less likely to happen
-			}
-
-			// Reduce weight for client version mismatch
-			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
-				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
-				if versionDiff > 0 {
-					weight *= 0.9 // upgrade
-				} else if versionDiff < 0 { // downgrade
-					if isVersionMatching(CloudClient{
-						Platform:      s.ToLower(df.Auth.OsName),
-						ClientName:    s.ToLower(df.Auth.ClientName),
-						ClientVersion: df.Auth.ClientVersion,
-					}) {
-						weight *= 0.8
-					} else {
-						weight *= 0.05
-					}
-
-				}
-			} else {
-				weight *= 0.85
-			}
-		} else {
-			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
-				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
-				if versionDiff > 0 {
-					weight = 0.75 // upgrade
-				} else if versionDiff < 0 { // downgrade
-					if isVersionMatching(CloudClient{
-						Platform:      s.ToLower(df.Auth.OsName),
-						ClientName:    s.ToLower(df.Auth.ClientName),
-						ClientVersion: df.Auth.ClientVersion,
-					}) {
-						weight = 0.6
-					} else {
-						weight = 0.05
-					}
-
-				}
-
-			} else {
-				weight = 0.45
+				weight *= 0.65 // downgrade
 			}
 		}
 		if df.Auth.DeviceSize != pastDevice.DeviceInfo.DeviceSize { // penalty if the device size is different
