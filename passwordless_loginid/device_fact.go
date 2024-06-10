@@ -131,9 +131,9 @@ func (df *DeviceData) MatchProbability() float64 {
 			} else if versionDiff < 0 {
 				weight *= 0.65 // downgrade
 			}
-		}
-		if df.Auth.DeviceSize != pastDevice.DeviceInfo.DeviceSize { // penalty if the device size is different
-			weight *= 0.7
+			if df.Auth.DeviceSize != pastDevice.DeviceInfo.DeviceSize { // penalty if the device size is different
+				weight *= 0.65
+			}
 		}
 
 		newProbability := weight * 100
