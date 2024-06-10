@@ -25,25 +25,24 @@ func notContains(list []string, element string) bool {
 	return !contains(list, element)
 }
 
-
-func CheckPassKeyType(passkey PassKeyType) bool{
-	return !notContains([]string{"local","device","cloud","nopasskey"},string(passkey))
+func CheckPassKeyType(passkey PassKeyType) bool {
+	return !notContains([]string{"local", "device", "cloud", "nopasskey"}, string(passkey))
 }
 
 var PassKeys = struct {
-	Local  PassKeyType
-	Device PassKeyType
-	Cloud  PassKeyType
-	NoPasskey	PassKeyType
+	Local     PassKeyType
+	Device    PassKeyType
+	Cloud     PassKeyType
+	NoPasskey PassKeyType
 }{
-	Local:  "local",
-	Device: "device",
-	Cloud:  "cloud",
+	Local:     "local",
+	Device:    "device",
+	Cloud:     "cloud",
 	NoPasskey: "nopasskey",
 }
 
 func readDeviceInfoFromJSON(fileName string) ([]*DeviceData, error) {
-	
+
 	file, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
@@ -60,7 +59,7 @@ func readDeviceInfoFromJSON(fileName string) ([]*DeviceData, error) {
 }
 
 func readSingleDeviceInfoFromJSON(fileName string) (DeviceData, error) {
-	
+
 	file, err := os.Open(fileName)
 	if err != nil {
 		return DeviceData{}, err
@@ -77,7 +76,7 @@ func readSingleDeviceInfoFromJSON(fileName string) (DeviceData, error) {
 }
 
 func writeDeviceInfoToCSV(fileName string, devices []*DeviceData) error {
-	csvFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	csvFile, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return err
 	}
@@ -91,7 +90,7 @@ func writeDeviceInfoToCSV(fileName string, devices []*DeviceData) error {
 	}
 
 	if fileInfo.Size() == 0 {
-		header := []string{"Label", "OSName", "ptype","prob"}
+		header := []string{"Label", "OSName", "ptype", "prob"}
 		err = csvWriter.Write(header)
 		if err != nil {
 			return err
@@ -99,7 +98,7 @@ func writeDeviceInfoToCSV(fileName string, devices []*DeviceData) error {
 	}
 
 	for _, device := range devices {
-		record := []string{device.Auth.DeviceID, device.Auth.OsName, string(device.Output.MatchPassKeyType),strconv.FormatFloat(device.Output.MatchProbability, 'f', -1, 64)}
+		record := []string{device.Auth.DeviceID, device.Auth.OsName, string(device.Output.MatchPassKeyType), strconv.FormatFloat(device.Output.MatchProbability, 'f', -1, 64)}
 		err = csvWriter.Write(record)
 		if err != nil {
 			return err
@@ -108,19 +107,18 @@ func writeDeviceInfoToCSV(fileName string, devices []*DeviceData) error {
 
 	sep := []string{"================================="}
 	err = csvWriter.Write(sep)
-		if err != nil {
-			return err
-		}
+	if err != nil {
+		return err
+	}
 
 	csvWriter.Flush()
 	return nil
 }
 
-
 type CloudClient struct {
-	Platform     		string
-	ClientName 			string
-	ClientVersion       string
+	Platform      string
+	ClientName    string
+	ClientVersion string
 }
 
 func getPredefinedVersions(platform string) map[string]string {
@@ -156,7 +154,7 @@ func getPredefinedVersions(platform string) map[string]string {
 func isVersionMatching(externalData CloudClient) bool {
 	predefinedVersions := getPredefinedVersions(externalData.Platform)
 	if predefinedVersions == nil {
-		fmt.Println("Unknown platform ",externalData.Platform)
+		fmt.Println("Unknown platform ", externalData.Platform)
 		return false
 	}
 

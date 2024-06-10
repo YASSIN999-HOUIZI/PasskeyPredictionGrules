@@ -28,9 +28,8 @@ type UserPasskeyHistory struct {
 }
 
 type Output struct {
-	MatchPassKeyType string //PassKeyType
+	MatchPassKeyType string // PassKeyType
 	MatchProbability float64
-	// MatchPasskeyType float64
 }
 
 type DeviceData struct {
@@ -39,6 +38,8 @@ type DeviceData struct {
 	DeviceFeatures     DeviceFeature
 	Output             Output
 }
+
+const LOCAL string = "local"
 
 func (df *DeviceData) IsPassKeyExisting() bool {
 	return df.DeviceFeatures.IsUVPPA
@@ -56,20 +57,16 @@ func (df *DeviceData) MatchOS() bool {
 func (df *DeviceData) MatchDeviceProperties() bool {
 
 	for _, deviceInfo := range df.UserPasskeyHistory {
-		// if deviceInfo.DeviceInfo != df.Auth {
-		// 	return false
-		// }
 		if deviceInfo.DeviceInfo.DeviceID != df.Auth.DeviceID || deviceInfo.DeviceInfo.DeviceSize != df.Auth.DeviceSize {
 			return false
 		}
-		if s.ToLower(deviceInfo.PasskeyType) == "local" {
+		if s.ToLower(deviceInfo.PasskeyType) == LOCAL {
 			if deviceInfo.DeviceInfo.ClientName != df.Auth.ClientName || deviceInfo.DeviceInfo.ClientVersion != df.Auth.ClientVersion {
 				return false
 			}
 		}
 
 	}
-	// fmt.Println(df.Auth.OsName, true)
 
 	return true
 }
@@ -87,7 +84,7 @@ func (df *DeviceData) IsConditionalMediationAvailable() bool {
 }
 
 func (df *DeviceData) IsCompatibleDevice() bool {
-	return s.ToLower(df.Auth.OsName) != "windows"
+	return !s.EqualFold(df.Auth.OsName, "windows")
 }
 
 func (df *DeviceData) MatchProbability() float64 {
@@ -115,7 +112,7 @@ func (df *DeviceData) MatchProbability() float64 {
 			} else {
 				weight *= 0.05
 			}
-		case "local":
+		case LOCAL:
 			if df.Auth.ClientName == pastDevice.DeviceInfo.ClientName {
 				versionDiff := compareVersions(df.Auth.ClientVersion, pastDevice.DeviceInfo.ClientVersion)
 				if versionDiff > 0 {
@@ -145,14 +142,7 @@ func (df *DeviceData) MatchProbability() float64 {
 	return min(probability, 90)
 }
 
-func min(a, b float64) float64 {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func compareVersions(v1 string, v2 string) int {
+func compareVersions(v1, v2 string) int {
 	v1Parts := s.Split(v1, ".")
 	v2Parts := s.Split(v2, ".")
 
@@ -183,8 +173,8 @@ func compareVersions(v1 string, v2 string) int {
 
 func (df *DeviceData) GetDeviceOrLocal() string {
 
-	if s.ToLower(df.Auth.OsName) == "macos" {
-		return "local"
+	if s.EqualFold(df.Auth.OsName, "macos") {
+		return LOCAL
 	}
 	return "device"
 }
